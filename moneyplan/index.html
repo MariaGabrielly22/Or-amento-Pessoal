@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Money Plan - Completo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <img src="../LOGO.IMG/LOGO.png" alt="Logo Money Plan" />
+      </div>
+    </header>
+    <div class="container">
+      <!-- Avisos dinâmicos -->
+      <div id="alertas"></div>
+      <!-- Dashboard resumo -->
+      <div class="grid">
+        <div class="card">
+          <h2>Saldo Total</h2>
+          <div id="saldoTotal" class="value">R$ 0,00</div>
+        </div>
+        <div class="card">
+          <h2>Receitas</h2>
+          <div id="totalReceita" class="value receita">R$ 0,00</div>
+        </div>
+        <div class="card">
+          <h2>Despesas</h2>
+          <div id="totalDespesa" class="value despesa">R$ 0,00</div>
+        </div>
+      </div>
+      <!-- Gráficos -->
+      <div class="grid">
+        <div class="card">
+          <h2>Fluxo de Receitas e Despesas</h2>
+          <canvas id="graficoFluxo" height="150"></canvas>
+        </div>
+        <div class="card">
+          <h2>Progresso das Metas</h2>
+          <div id="listaProgressoMetas"></div>
+        </div>
+      </div>
+      <!-- Formulário de transações -->
+      <div class="card">
+        <h2>Adicionar/Editar Transação</h2>
+        <form id="formTransacao" onsubmit="salvarTransacao(event)">
+          <input type="hidden" id="transacaoIndex" />
+          <label for="descricaoTransacao">Descrição</label>
+          <input type="text" id="descricaoTransacao" placeholder="Ex: Salário, Supermercado" required />
+          <label for="valorTransacao">Valor (positivo para receita, negativo para despesa)</label>
+          <input type="number" step="0.01" id="valorTransacao" required />
+          <label for="categoriaTransacao">Categoria</label>
+          <select id="categoriaTransacao" required>
+            <option value="">Selecione</option>
+            <option>Moradia</option>
+            <option>Transporte</option>
+            <option>Alimentação</option>
+            <option>Lazer</option>
+            <option>Saúde</option>
+            <option>Educação</option>
+            <option>Outros</option>
+          </select>
+          <label for="anotacaoTransacao">Anotações</label>
+          <textarea id="anotacaoTransacao" rows="2" placeholder="Observações (opcional)"></textarea>
+          <button type="submit">Salvar Transação</button>
+        </form>
+      </div>
+      <!-- Lista transações -->
+      <div class="card">
+        <h2>Transações</h2>
+        <table id="tabelaTransacoes">
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Valor</th>
+              <th>Categoria</th>
+              <th>Anotação</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <!-- Orçamentos -->
+      <div class="card">
+        <h2>Orçamentos Personalizados</h2>
+        <form id="formOrcamento" onsubmit="salvarOrcamento(event)">
+          <label for="categoriaOrcamento">Categoria</label>
+          <select id="categoriaOrcamento" required>
+            <option value="">Selecione</option>
+            <option>Moradia</option>
+            <option>Transporte</option>
+            <option>Alimentação</option>
+            <option>Lazer</option>
+            <option>Saúde</option>
+            <option>Educação</option>
+            <option>Outros</option>
+          </select>
+          <label for="limiteMensal">Limite Mensal (R$)</label>
+          <input type="number" step="0.01" id="limiteMensal" required />
+          <label for="limiteAnual">Limite Anual (R$)</label>
+          <input type="number" step="0.01" id="limiteAnual" />
+          <button type="submit">Salvar Orçamento</button>
+        </form>
+        <table id="tabelaOrcamentos" class="tabela-orcamentos">
+          <thead>
+            <tr>
+              <th>Categoria</th>
+              <th>Limite Mensal</th>
+              <th>Limite Anual</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <!-- Metas e Grupos Sociais -->
+      <div class="grid">
+        <div class="card">
+          <h2>Adicionar Meta</h2>
+          <form id="formMeta" onsubmit="adicionarMeta(event)">
+            <label for="descricaoMeta">Descrição</label>
+            <input type="text" id="descricaoMeta" placeholder="Ex: Viagem, Reserva" required />
+            <label for="valorMeta">Valor Alvo (R$)</label>
+            <input type="number" step="0.01" id="valorMeta" required />
+            <label for="grupoMeta">Meta para</label>
+            <select id="grupoMeta">
+              <option value="">Meta Individual</option>
+              <!-- Aqui você pode dinamicamente inserir grupos via JS -->
+            </select>
+            <button type="submit">Adicionar Meta</button>
+          </form>
+          <div id="listaMetas"></div>
+        </div>
+        <div class="card">
+          <h2>Grupos Sociais</h2>
+          <form id="formGrupo" onsubmit="criarGrupo(event)">
+            <label for="nomeGrupo">Nome do Grupo</label>
+            <input type="text" id="nomeGrupo" placeholder="Nome do grupo" required />
+            <label for="membrosGrupo">Membros (separados por vírgula)</label>
+            <input type="text" id="membrosGrupo" placeholder="Ex: João, Maria, Ana" required />
+            <button type="submit">Criar Grupo</button>
+          </form>
+          <div id="listaGrupos"></div>
+        </div>
+      </div>
+      <!-- Educação Financeira -->
+<div class="card">
+  <h2>Educação Financeira</h2>
+  <div id="educacaoFinanceira">
+    <article>
+      <h3>Como controlar suas despesas</h3>
+      <p>Monitore seus gastos diariamente para identificar despesas desnecessárias.</p>
+    </article>
+    <article>
+      <h3>Dicas para investir com segurança</h3>
+      <p>Invista inicialmente em fundos conservadores e diversifique seus ativos.</p>
+    </article>
+    <article>
+      <h3>Gestão de dívidas</h3>
+      <p>Priorize o pagamento de dívidas com juros altos para evitar acúmulo.</p>
+    </article>
+    <button onclick="abrirVideoEducativo()">Assistir vídeo tutorial</button>
+
+    <!-- Vídeo escondido que será exibido ao clicar no botão -->
+    <div id="videoEducativo" style="display: none; margin-top: 1rem;">
+      <iframe width="100%" height="315" src="https://youtu.be/HSXcvFVtsdM?si=jrtPIHuFhb-oI9kI" title="Educação Financeira - Vídeo Tutorial" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+      <!-- Simulação sincronização bancária -->
+      <div class="card">
+        <h2>Sincronização Bancária (Simulada)</h2>
+        <button onclick="sincronizarBanco()">Sincronizar agora</button>
+        <p id="statusSync" class="status-sync"></p>
+      </div>
+      <!-- Sugestões Personalizadas -->
+      <div class="card">
+        <h2>Sugestões Personalizadas</h2>
+        <div id="sugestoes"></div>
+      </div>
+    </div>
+    <footer class="footer">© 2025 Money Plan Completo - Desenvolvido com 💙</footer>
+    <script src="script.js"></script>
+  </body>
+</html>
