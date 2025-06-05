@@ -1,16 +1,17 @@
 :root {
-  --primary: #003459;       
-  --primary-dark: #00263a;  
-  --secondary: #4ce0c1;     
-  --light: #f4f8fb;         
-  --light-alt: #e9f2f7;     
-  --dark: #1e1e2f;          
-  --dark-light: #4a4a6a;    
+  --primary: #003459;
+  --primary-dark: #00263a;
+  --primary-gradient: linear-gradient(135deg, #003459, #005b8f);
+  --secondary: #4ce0c1;
+  --light: #f4f8fb;
+  --light-alt: #e9f2f7;
+  --dark: #1e1e2f;
+  --dark-light: #4a4a6a;
   --font: 'Inter', sans-serif;
   --radius: 12px;
   --shadow-light: rgba(0, 0, 0, 0.07);
+  --transition: all 0.3s ease-in-out;
 }
-
 
 * {
   box-sizing: border-box;
@@ -24,7 +25,7 @@ body {
   color: var(--dark);
   line-height: 1.6;
   min-height: 100vh;
-  padding-bottom: 60px;
+  padding-bottom: 80px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -32,16 +33,16 @@ body {
 header {
   display: flex;
   align-items: center;
-  padding: 20px 30px;
-  background-color: #fff;
-  box-shadow: 0 4px 12px var(--shadow-light);
   justify-content: space-between;
   flex-wrap: wrap;
+  padding: 20px 30px;
+  background: white;
+  box-shadow: 0 4px 12px var(--shadow-light);
   position: sticky;
   top: 0;
   z-index: 100;
   border-radius: 0 0 var(--radius) var(--radius);
-  transition: box-shadow 0.3s ease;
+  transition: var(--transition);
 }
 
 header:hover {
@@ -49,40 +50,45 @@ header:hover {
 }
 
 header img {
-  height: 80px;
-  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.1));
+  height: 60px;
+  transition: transform 0.3s ease;
+}
+
+header img:hover {
+  transform: scale(1.05);
 }
 
 header h1 {
-  font-size: 24px;
+  font-size: 26px;
   margin-left: 15px;
-  color: var(--dark);
+  color: var(--primary-dark);
   font-weight: 700;
   letter-spacing: 0.04em;
+  text-shadow: 0 1px 1px rgba(0, 52, 89, 0.15);
 }
 
 .container {
   max-width: 1200px;
   margin: 30px auto;
-  padding: 20px 25px;
+  padding: 24px 30px;
   background: var(--light-alt);
   border-radius: var(--radius);
-  box-shadow: 0 6px 12px var(--shadow-light);
+  box-shadow: 0 6px 16px var(--shadow-light);
 }
 
 h2 {
   margin-bottom: 20px;
   color: var(--primary);
   font-weight: 700;
-  font-size: 26px;
+  font-size: 24px;
   letter-spacing: 0.02em;
-  text-shadow: 0 1px 1px rgba(0, 119, 204, 0.3);
+  text-shadow: 0 1px 1px rgba(0, 119, 204, 0.2);
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
+  gap: 28px;
   margin-bottom: 40px;
 }
 
@@ -108,7 +114,7 @@ h2 {
   font-weight: 700;
   margin-bottom: 14px;
   color: var(--primary-dark);
-  text-shadow: 0 1px 2px rgba(0, 95, 163, 0.4);
+  text-shadow: 0 1px 2px rgba(0, 95, 163, 0.3);
 }
 
 table {
@@ -122,7 +128,8 @@ table {
   box-shadow: 0 0 6px #ddd inset;
 }
 
-th, td {
+th,
+td {
   padding: 10px 14px;
   text-align: left;
   border-bottom: 1px solid #eee;
@@ -132,13 +139,17 @@ th {
   background-color: var(--light-alt);
   font-weight: 600;
   letter-spacing: 0.03em;
+  color: var(--primary-dark);
 }
 
 tr:hover {
   background-color: var(--light);
 }
 
-input, select, textarea, button {
+input,
+select,
+textarea,
+button {
   font-family: var(--font);
   font-size: 15px;
   padding: 10px 14px;
@@ -148,17 +159,19 @@ input, select, textarea, button {
   border: 1.5px solid #ccc;
   width: 100%;
   box-sizing: border-box;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: var(--transition);
   outline-offset: 2px;
 }
 
-input:focus, select:focus, textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
   border-color: var(--primary);
   box-shadow: 0 0 8px var(--primary);
 }
 
 button {
-  background-color: var(--primary);
+  background: var(--primary-gradient);
   color: white;
   border: none;
   cursor: pointer;
@@ -166,7 +179,7 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 12px 18px;
-  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+  transition: var(--transition);
   box-shadow: 0 3px 10px rgba(0, 119, 204, 0.3);
 }
 
@@ -175,25 +188,34 @@ button:hover {
   box-shadow: 0 5px 20px rgba(0, 95, 163, 0.6);
 }
 
-progress {
-  width: 100%;
-  height: 22px;
+.barra-progresso {
+  height: 18px;
+  background: #e0e7f0;
   border-radius: 14px;
   overflow: hidden;
   margin-top: 8px;
-  background: #e0e7f0;
-  box-shadow: inset 0 2px 5px rgba(255,255,255,0.8);
+  box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.8);
+}
+
+.progresso {
+  height: 100%;
+  background: var(--secondary);
+  text-align: right;
+  padding-right: 6px;
+  color: #fff;
+  font-size: 12px;
+  transition: width 0.5s ease;
 }
 
 .alert {
   background-color: #ffe6e6;
-  border-left: 6px solid #cc0000;
+  border-left: 6px solid hsl(265, 100%, 66%);
   padding: 14px 18px;
   margin-bottom: 18px;
   border-radius: 10px;
   color: #900;
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(204,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(204, 0, 0, 0.15);
 }
 
 .success {
@@ -204,7 +226,7 @@ progress {
   border-radius: 10px;
   color: #0a662a;
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(0,170,85,0.15);
+  box-shadow: 0 2px 8px rgba(0, 170, 85, 0.15);
 }
 
 .footer {
@@ -226,14 +248,67 @@ progress {
   .grid {
     grid-template-columns: 1fr;
   }
-  
+
   header {
     justify-content: center;
     text-align: center;
   }
-  
+
   header h1 {
     margin-left: 0;
     margin-top: 10px;
   }
+}
+
+video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px 0;
+}
+
+/* Estilização do vídeo */
+.video-container {
+    display: none;
+    margin-top: 1rem;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    background-color: #000;
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-width: 100%;
+}
+
+/* Estilização do botão do vídeo */
+.btn-video {
+    background-color: #2e7d32;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+.btn-video:hover {
+    background-color: #1b5e20;
+}
+
+.video-container {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, display 0.3s ease;
+}
+
+.video-container.show {
+    opacity: 1;
+    transform: translateY(0);
 }
